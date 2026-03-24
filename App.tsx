@@ -1,45 +1,40 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
+import { View, StatusBar } from 'react-native'
+import HomeScreen from './android/app/src/screens/HomeScreen'
+import 'react-native-reanimated';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import * as React from 'react';
+import {createStaticNavigation} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import ProductScreen from './android/app/src/screens/ProductScreen';
 
-import { NewAppScreen } from '@react-native/new-app-screen';
-import { StatusBar, StyleSheet, useColorScheme, View } from 'react-native';
-import {
-  SafeAreaProvider,
-  useSafeAreaInsets,
-} from 'react-native-safe-area-context';
 
-function App() {
-  const isDarkMode = useColorScheme() === 'dark';
+const RootStack = createNativeStackNavigator({
 
-  return (
-    <SafeAreaProvider>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <AppContent />
-    </SafeAreaProvider>
-  );
-}
-
-function AppContent() {
-  const safeAreaInsets = useSafeAreaInsets();
-
-  return (
-    <View style={styles.container}>
-      <NewAppScreen
-        templateFileName="App.tsx"
-        safeAreaInsets={safeAreaInsets}
-      />
-    </View>
-  );
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
+  // define all screens in app
+  screens: {
+    // screen name used for navigation
+    Home: {
+      // which component to show
+      screen: HomeScreen, 
+      // top header title
+      options: { headerShown: false,},
+    },
+    Profile: {
+      screen: ProductScreen,
+    },
   },
 });
+
+// turns it into a working app
+const Navigation = createStaticNavigation(RootStack);
+const App = () => {
+  return (
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <StatusBar backgroundColor='#000' barStyle='dark-content' />
+      {/* connects to App Starts navigation */}
+        <Navigation />
+    </GestureHandlerRootView>
+  )
+}
 
 export default App;
