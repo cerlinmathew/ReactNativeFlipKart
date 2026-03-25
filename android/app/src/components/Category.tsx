@@ -7,13 +7,13 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 const Category = () => {
    
-    type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
-    const navigation = useNavigation<NavigationProp>();
+type NavigationProp = NativeStackNavigationProp<RootStackParamList, 'Product'>;
+const navigation = useNavigation<NavigationProp>();
     return (
         <ScrollView horizontal style={styles.container}>
             {Categories.map(item => (
                 <TouchableOpacity onPress={() =>
-        navigation.navigate('Profile')} key={item.id} style={styles.category}>
+        navigation.navigate('Product', { id: item.id })} key={item.id} style={styles.category}>
                     <Image source={item.image} style={styles.image} />
                     <Text style={styles.title}>{item.title}</Text>
                 </TouchableOpacity>
