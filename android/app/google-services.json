@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "604839121161",
+    "project_id": "flipkartproj-0011",
+    "storage_bucket": "flipkartproj-0011.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:604839121161:android:5bb8452ac8275b9b7383d8",
+        "android_client_info": {
+          "package_name": "com.flipkart"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCJ0Gh5Wxi4k6cpAMkLDdvDOnueqcftTsQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

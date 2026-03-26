@@ -4,6 +4,7 @@ import { getRating } from '../utils/helper';
 import { ProductData } from '../data/productData';
 import { useRoute, RouteProp } from '@react-navigation/native';
 import { RootStackParamList } from '../../../../../FlipKart/types/navigation';
+import { showNotification } from '../utils/notification';
 
 type RouteProps = RouteProp<RootStackParamList, 'Product'>;
 
@@ -15,9 +16,16 @@ const ProductScreen = () => {
     const shareProduct = async (productId: number) => {
         const link = `myapp://product/${productId}`;
 
-        await Share.share({
-            message: `Product: ${link}`,
-        });
+        const shareProduct = async (productId: number) => {
+            const link = `myapp://product/${productId}`;
+
+            await Share.share({
+                message: `Product: ${link}`,
+            });
+
+            // Show notification
+            showNotification('Shared!', 'Product link shared successfully');
+        };
     };
 
     return (
@@ -65,7 +73,7 @@ const ProductScreen = () => {
                                 FREE DELIVERY by {item.deliveryBy}
                             </Text>
 
-                      
+
                             <TouchableOpacity onPress={() => shareProduct(item.id)}>
                                 <Text style={{ color: 'blue', marginTop: 5 }}>
                                     Share Product
