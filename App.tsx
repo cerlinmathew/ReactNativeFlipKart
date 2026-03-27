@@ -40,7 +40,7 @@ const App = () => {
   }
 
   useEffect(()=>{
-
+    requestPermission()
   },[])
  
   return (
