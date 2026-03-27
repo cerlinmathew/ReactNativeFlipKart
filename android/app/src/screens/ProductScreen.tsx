@@ -11,21 +11,16 @@ type RouteProps = RouteProp<RootStackParamList, 'Product'>;
 const ProductScreen = () => {
 
     const route = useRoute<RouteProps>();
-    const id = route.params?.id;
+    const id = Number(route.params?.id);
 
     const shareProduct = async (productId: number) => {
         const link = `myapp://product/${productId}`;
 
-        const shareProduct = async (productId: number) => {
-            const link = `myapp://product/${productId}`;
+        await Share.share({
+            message: `Product: ${link}`,
+        });
 
-            await Share.share({
-                message: `Product: ${link}`,
-            });
-
-            // Show notification
-            showNotification('Shared!', 'Product link shared successfully');
-        };
+        showNotification('Shared!', 'Product link shared successfully');
     };
 
     return (

@@ -1,30 +1,12 @@
-import { StatusBar } from 'react-native'
+import { Alert, StatusBar } from 'react-native'
 import HomeScreen from './android/app/src/screens/HomeScreen'
 import 'react-native-reanimated';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import * as React from 'react';
-import {createStaticNavigation} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import ProductScreen from './android/app/src/screens/ProductScreen';
 import { NavigationContainer } from '@react-navigation/native';
-
-
-// const RootStack = createNativeStackNavigator({
-
-//   // define all screens in app
-//   screens: {
-//     // screen name used for navigation
-//     Home: {
-//       // which component to show
-//       screen: HomeScreen, 
-//       // top header title
-//       options: { headerShown: false,},
-//     },
-//     Profile: {
-//       screen: ProductScreen,
-//     },
-//   },
-// });
+import {View, Text,StyleSheet,PermissionsAndroid } from 'react-native'
 
 const Stack = createNativeStackNavigator();
 
@@ -39,22 +21,32 @@ const linking = {
 };
 
 
-// turns it into a working app
-// const Navigation = createStaticNavigation(RootStack);
-// const App = () => {
-//   return (
-//     <GestureHandlerRootView style={{ flex: 1 }}>
-//       <StatusBar backgroundColor='#000' barStyle='dark-content' />
-//       {/* connects to App Starts navigation */}
-//         <Navigation />
-//     </GestureHandlerRootView>
-//   )
-// }
-
 const App = () => {
+
+  const requestPermission = async()=>{
+    try{
+      const result = await  PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS);
+      if(result ===PermissionsAndroid.RESULTS.GRANTED){
+        //request for device token
+      }else{
+        Alert.alert("Permission Denied")
+      }
+    }catch(error){
+      console.log(error)
+    }
+  }
+
+  useEffect(()=>{
+
+  },[])
+ 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <StatusBar backgroundColor='#000' barStyle='dark-content' />
+      <View style={StyleSheet.container}>
+        <Text>Push Notification</Text>
+        </View>
+      
 
       <NavigationContainer linking={linking}>
         <Stack.Navigator>
@@ -74,4 +66,12 @@ const App = () => {
   )
 }
 
+
+const styles = StyleSheet.create({
+  container:{
+    flex: 1,
+    justifyContent:"center",
+    alignItems:'center'
+  }
+})
 export default App;
