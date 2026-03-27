@@ -6,7 +6,8 @@ import * as React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import ProductScreen from './android/app/src/screens/ProductScreen';
 import { NavigationContainer } from '@react-navigation/native';
-import {View, Text,StyleSheet,PermissionsAndroid } from 'react-native'
+import {View, Text, StyleSheet, PermissionsAndroid } from 'react-native'
+import { useEffect } from 'react';
 
 const Stack = createNativeStackNavigator();
 
@@ -26,6 +27,8 @@ const App = () => {
   const requestPermission = async()=>{
     try{
       const result = await  PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS);
+      console.log("Result1", result);
+      console.log("Result2", PermissionsAndroid.RESULTS.GRANTED);
       if(result ===PermissionsAndroid.RESULTS.GRANTED){
         //request for device token
       }else{
@@ -43,7 +46,7 @@ const App = () => {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <StatusBar backgroundColor='#000' barStyle='dark-content' />
-      <View style={StyleSheet.container}>
+      <View style={styles.container}>
         <Text>Push Notification</Text>
         </View>
       
