@@ -1,99 +1,26 @@
-import { Alert, StatusBar } from 'react-native'
-import HomeScreen from './android/app/src/screens/HomeScreen'
+import { StatusBar } from 'react-native'
 import 'react-native-reanimated';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import * as React from 'react';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import ProductScreen from './android/app/src/screens/ProductScreen';
-import { NavigationContainer } from '@react-navigation/native';
-import { View, Text, StyleSheet, PermissionsAndroid } from 'react-native'
+import { StyleSheet } from 'react-native'
 import { useEffect } from 'react';
-import messaging from '@react-native-firebase/messaging';
-
-const Stack = createNativeStackNavigator();
-
-const linking = {
-  prefixes: ['myapp://'],
-  config: {
-    screens: {
-      Home: 'home',
-      Product: 'product/:id',
-    },
-  },
-};
-
+import { foregroundNotification, requestUserPermission } from './android/app/src/services/notificationService';
 
 const App = () => {
-
-  const requestPermission = async () => {
-    try {
-      // Requesting permission: If granted call requestToken(), denied show alert
-      const result = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS);
-      console.log("Result1", result);
-      console.log("Result2", PermissionsAndroid.RESULTS.GRANTED);
-      if (result === PermissionsAndroid.RESULTS.GRANTED) {
-        //request for device token
-        requestToken()
-      } else {
-        Alert.alert("Permission Denied")
-      }
-    } catch (error) {
-      console.log(error)
-    }
-  }
-  //Getting FCM Device Token
-  const requestToken = async () => {
-    try {
-      // uniquely identifies device, Backend uses this token to send push notifications
-      await messaging().registerDeviceForRemoteMessages();
-      const token = await messaging().getToken();
-      console.log("Device Token", token);
-      // save the token to the db
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
   // app loads, asks notification permission
   useEffect(() => {
-    requestPermission()
-  }, [])
-  //foreground notification
-  useEffect(() => {
-    const unsubscribe = messaging().onMessage(async remoteMessage => {
-      const title = remoteMessage.notification?.title || 'No Title';
-      const body = remoteMessage.notification?.body || 'No Body';
-      // Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
-      Alert.alert(title, body);
-    });
-
+    requestUserPermission()
+    const unsubscribe = foregroundNotification();
+    // stops listening to notifications
     return unsubscribe;
-  }, []);
+  }, [])
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <StatusBar backgroundColor='#000' barStyle='dark-content' />
-
-
-
-      <NavigationContainer linking={linking}>
-        <Stack.Navigator>
-          <Stack.Screen
-            name="Home"
-            component={HomeScreen}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="Product"
-            component={ProductScreen}
-          />
-        </Stack.Navigator>
-      </NavigationContainer>
-
     </GestureHandlerRootView>
   )
 }
-
 
 const styles = StyleSheet.create({
   container: {
