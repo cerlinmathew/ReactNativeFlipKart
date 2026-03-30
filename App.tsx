@@ -3,11 +3,12 @@ import HomeScreen from './android/app/src/screens/HomeScreen'
 import 'react-native-reanimated';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import * as React from 'react';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import ProductScreen from './android/app/src/screens/ProductScreen';
 import { NavigationContainer } from '@react-navigation/native';
-import {View, Text, StyleSheet, PermissionsAndroid } from 'react-native'
+import { View, Text, StyleSheet, PermissionsAndroid } from 'react-native'
 import { useEffect } from 'react';
+import messaging from '@react-native-firebase/messaging';
 
 const Stack = createNativeStackNavigator();
 
@@ -24,43 +25,55 @@ const linking = {
 
 const App = () => {
 
-  const requestPermission = async()=>{
-    try{
-      const result = await  PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS);
+  const requestPermission = async () => {
+    try {
+      const result = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS);
       console.log("Result1", result);
       console.log("Result2", PermissionsAndroid.RESULTS.GRANTED);
-      if(result ===PermissionsAndroid.RESULTS.GRANTED){
+      if (result === PermissionsAndroid.RESULTS.GRANTED) {
         //request for device token
-      }else{
+        requestToken()
+      } else {
         Alert.alert("Permission Denied")
       }
-    }catch(error){
+    } catch (error) {
       console.log(error)
     }
   }
 
-  useEffect(()=>{
+  const requestToken = async () => {
+    try {
+      await messaging().registerDeviceForRemoteMessages();
+      const token = await messaging().getToken();
+      console.log("Device Token", token);
+      // save the token to the db
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  useEffect(() => {
     requestPermission()
-  },[])
- 
+  }, [])
+
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <StatusBar backgroundColor='#000' barStyle='dark-content' />
       <View style={styles.container}>
         <Text>Push Notification</Text>
-        </View>
-      
+      </View>
+
 
       <NavigationContainer linking={linking}>
         <Stack.Navigator>
-          <Stack.Screen 
-            name="Home" 
-            component={HomeScreen} 
-            options={{ headerShown: false }} 
+          <Stack.Screen
+            name="Home"
+            component={HomeScreen}
+            options={{ headerShown: false }}
           />
-          <Stack.Screen 
-            name="Product" 
-            component={ProductScreen} 
+          <Stack.Screen
+            name="Product"
+            component={ProductScreen}
           />
         </Stack.Navigator>
       </NavigationContainer>
@@ -71,10 +84,10 @@ const App = () => {
 
 
 const styles = StyleSheet.create({
-  container:{
+  container: {
     flex: 1,
-    justifyContent:"center",
-    alignItems:'center'
+    justifyContent: "center",
+    alignItems: 'center'
   }
 })
 export default App;
