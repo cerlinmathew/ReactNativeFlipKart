@@ -27,6 +27,7 @@ const App = () => {
 
   const requestPermission = async () => {
     try {
+      // Requesting permission: If granted call requestToken(), denied show alert
       const result = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS);
       console.log("Result1", result);
       console.log("Result2", PermissionsAndroid.RESULTS.GRANTED);
@@ -40,9 +41,10 @@ const App = () => {
       console.log(error)
     }
   }
-
+  //Getting FCM Device Token
   const requestToken = async () => {
     try {
+      // uniquely identifies device, Backend uses this token to send push notifications
       await messaging().registerDeviceForRemoteMessages();
       const token = await messaging().getToken();
       console.log("Device Token", token);
@@ -52,16 +54,26 @@ const App = () => {
     }
   }
 
+  // app loads, asks notification permission
   useEffect(() => {
     requestPermission()
   }, [])
+  //foreground notification
+  useEffect(() => {
+    const unsubscribe = messaging().onMessage(async remoteMessage => {
+      const title = remoteMessage.notification?.title || 'No Title';
+      const body = remoteMessage.notification?.body || 'No Body';
+      // Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
+      Alert.alert(title, body);
+    });
+
+    return unsubscribe;
+  }, []);
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <StatusBar backgroundColor='#000' barStyle='dark-content' />
-      <View style={styles.container}>
-        <Text>Push Notification</Text>
-      </View>
+
 
 
       <NavigationContainer linking={linking}>
