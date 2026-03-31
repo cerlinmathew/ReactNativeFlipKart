@@ -5,6 +5,7 @@ import { ProductData } from '../data/productData';
 import { useRoute, RouteProp } from '@react-navigation/native';
 import { RootStackParamList } from '../../../../../FlipKart/types/navigation';
 import { showNotification } from '../utils/notification';
+import ReanimatedComponent from '../components/ReanimatedComponent';
 
 type RouteProps = RouteProp<RootStackParamList, 'Product'>;
 
@@ -29,6 +30,7 @@ const ProductScreen = () => {
             <Text style={styles.tagline}>
                 Price and other details vary based on product size and color
             </Text>
+           
 
             {ProductData
                 .filter(item => !id || item.id === id)
@@ -67,10 +69,8 @@ const ProductScreen = () => {
                             <Text style={styles.cashback}>
                                 FREE DELIVERY by {item.deliveryBy}
                             </Text>
-
-
                             <TouchableOpacity onPress={() => shareProduct(item.id)}>
-                                <Text style={{ color: 'blue', marginTop: 5 }}>
+                                 <Text style={{ color: 'blue', marginTop: 5 }}>
                                     Share Product
                                 </Text>
                             </TouchableOpacity>
@@ -78,6 +78,7 @@ const ProductScreen = () => {
                         </View>
                     </View>
                 ))}
+                 <ReanimatedComponent />
         </ScrollView>
     )
 }
