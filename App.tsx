@@ -5,6 +5,8 @@ import * as React from 'react';
 import { StyleSheet } from 'react-native'
 import { useEffect } from 'react';
 import { foregroundNotification, requestUserPermission } from './android/app/src/services/notificationService';
+import AppNavigator from './android/app/src/navigation/AppNavigator';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const App = () => {
   // app loads, asks notification permission
@@ -16,17 +18,20 @@ const App = () => {
   }, [])
 
   return (
+
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <StatusBar backgroundColor='#000' barStyle='dark-content' />
+      <SafeAreaView style={[styles.container, { backgroundColor: '#298588' }]}>
+        <StatusBar  barStyle='light-content' />
+        <AppNavigator />
+      </SafeAreaView>
     </GestureHandlerRootView>
+
   )
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: 'center'
+    flex: 1
   }
 })
 export default App;

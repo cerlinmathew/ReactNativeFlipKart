@@ -36,10 +36,12 @@ export const requestUserPermission = async () => {
 
   //foreground notification
   export const foregroundNotification = () => {
-    return messaging().onMessage(async remoteMessage => {
-      const title = remoteMessage.notification?.title || 'No Title';
-      const body = remoteMessage.notification?.body || 'No Body';
-      // Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
-      Alert.alert(title, body);
-    });
-  };
+  return messaging().onMessage(async remoteMessage => {
+    console.log(" RECEIVED:", JSON.stringify(remoteMessage));
+
+    const title = remoteMessage.notification?.title || 'No Title';
+    const body = remoteMessage.notification?.body || 'No Body';
+
+    Alert.alert(title, body);
+  });
+};
