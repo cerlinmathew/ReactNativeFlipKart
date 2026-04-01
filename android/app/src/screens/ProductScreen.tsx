@@ -6,6 +6,7 @@ import { useRoute, RouteProp } from '@react-navigation/native';
 import { RootStackParamList } from '../../../../../FlipKart/types/navigation';
 import { showNotification } from '../utils/notification';
 import ReanimatedComponent from '../components/ReanimatedComponent';
+// import CalendarComponent from '../components/CalendarComponent';
 
 type RouteProps = RouteProp<RootStackParamList, 'Product'>;
 
@@ -79,6 +80,7 @@ const ProductScreen = () => {
                     </View>
                 ))}
                  <ReanimatedComponent />
+                 {/* <CalendarComponent /> */}
         </ScrollView>
     )
 }
