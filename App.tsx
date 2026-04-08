@@ -1,5 +1,6 @@
-import { StatusBar } from 'react-native'
 import 'react-native-reanimated';
+import { StatusBar } from 'react-native'
+
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import * as React from 'react';
 import { StyleSheet } from 'react-native'
@@ -11,11 +12,10 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 const App = () => {
   // app loads, asks notification permission
   useEffect(() => {
-    requestUserPermission()
-    const unsubscribe = foregroundNotification();
-    // stops listening to notifications
-    return unsubscribe;
-  }, [])
+  requestUserPermission();
+  const unsubscribe = foregroundNotification();
+  return unsubscribe;
+}, []);
 
   return (
 

@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
     deal: {
         color: '#be0201',
         fontSize: 12,
-        fontWeight: 600,
+        fontWeight: '600',
         marginLeft: 6
     },
     row: {

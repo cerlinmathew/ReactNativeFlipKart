@@ -6,6 +6,7 @@ import { useRoute, RouteProp } from '@react-navigation/native';
 import { RootStackParamList } from '../../../../../FlipKart/types/navigation';
 import { showNotification } from '../utils/notification';
 import ReanimatedComponent from '../components/ReanimatedComponent';
+import CalendarComponent from '../components/CalendarComponent';
 
 type RouteProps = RouteProp<RootStackParamList, 'Product'>;
 
@@ -58,7 +59,7 @@ const ProductScreen = () => {
                             </View>
 
                             <Text style={styles.cashback}>
-                                Up to 5% cashback with Amazon Pay Credit card
+                                Up to 5% cashback with Flipkart Pay Credit card
                             </Text>
 
                             <Image
@@ -79,6 +80,7 @@ const ProductScreen = () => {
                     </View>
                 ))}
                  <ReanimatedComponent />
+                 <CalendarComponent />
         </ScrollView>
     )
 }

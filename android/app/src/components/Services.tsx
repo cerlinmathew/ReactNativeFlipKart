@@ -14,7 +14,7 @@ const Services = () => {
                 <View style={styles.row}>
                     <View style={styles.innerContainer}>
                         <Image source={require('../assets/flipkartPay.jpg')} style={styles.imgStyle} />
-                        <Text style={styles.title}>Amazon Pay</Text>
+                        <Text style={styles.title}>Flipkart Pay</Text>
                     </View>
                     <View style={styles.innerContainer}>
                         <Image source={require('../assets/image.png')} style={styles.imgStyle} />
